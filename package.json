@@ -1,0 +1,13 @@
+{
+  "name": "slack-bot",
+  "description": "",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Nanka-Tsukuro",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-pseudo-parameters": "^2.5.0",
+    "serverless-python-requirements": "^5.0.1"
+  }
+}
