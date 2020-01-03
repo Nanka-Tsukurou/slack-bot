@@ -2,8 +2,8 @@ name: Check
 on: pull_request
 
 jobs:
-  type:
-    name: Type check
+  check:
+    name: check
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
