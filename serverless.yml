@@ -1,11 +1,11 @@
-service: ecwms-mail-api
+service: slack-bot
 
 provider:
   name: aws
   runtime: python3.7
   stage: prod
   region: ap-northeast-1
-  deploymentBucket: sls-deployment-#{AWS::AccountId}
+  deploymentBucket: ${env:SLS_DEPLOYMENT_BUCKET}
   logRetentionInDays: 7
   timeout: 60
   memorySize: 256
@@ -21,9 +21,12 @@ functions:
       - schedule:
           rate: cron(0 3 * * ? *)
 
+package:
+  exclude:
+    - .venv/**
+
 plugins:
   - serverless-python-requirements
-  - serverless-pseudo-parameters
 
 custom:
   pythonRequirements:
