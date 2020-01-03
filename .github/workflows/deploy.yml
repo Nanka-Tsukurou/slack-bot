@@ -1,10 +1,18 @@
-name: Check
-on: pull_request
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STG }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STG }}
+  SLS_DEPLOYMENT_BUCKET: ${{ secrets.SLS_DEPLOYMENT_BUCKET }}
 
 jobs:
-  check:
-    name: Check
-    runs-on: ubuntu-18.04
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -22,21 +30,12 @@ jobs:
           python-version: "3.7"
           architecture: "x64"
 
-      - name: Install dependencies
+      - name: Install Pipenv
         run: |
           pip install --upgrade pip pipenv
-          pipenv install --ignore-pipfile --dev
+          pipenv install --ignore-pipfile
         env:
           PIPENV_NOSPIN: 1
 
-      - name: Lint check
-        run: pipenv run lint
-
-      - name: Type check
-        run: pipenv run check
-
-      - name: Package vulnerabilities check
-        run: pipenv check
-
-      - name: Package Serverless
-        run: npm run sls:package
+      - name: Deploy
+        run: npm run sls:deploy
