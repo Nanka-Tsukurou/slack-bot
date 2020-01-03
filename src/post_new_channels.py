@@ -1,3 +1,4 @@
+import json
 import os
 import datetime
 from logging import getLogger
@@ -41,5 +42,19 @@ def post_new_channels():
         client.chat_postMessage(channel=slack_channel, text=message)
 
 
+def lambda_handler(event, lambda_context):
+    try:
+        logger.info('start')
+        logger.info(f'event: {json.dumps(event)}')
+
+        post_new_channels()
+
+    except Exception as e:
+        logger.exception('fail')
+
+        raise e
+
+
 if __name__ == "__main__":
+    logger.info('start')
     post_new_channels()

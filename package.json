@@ -1,0 +1,18 @@
+{
+  "name": "slack-bot",
+  "description": "",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Nanka-Tsukuro",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "dotenv-cli": "^3.1.0",
+    "serverless": "^1.60.4",
+    "serverless-python-requirements": "^5.0.1"
+  },
+  "scripts": {
+    "sls:package": "dotenv sls package",
+    "sls:deploy": "dotenv sls deploy"
+  }
+}
