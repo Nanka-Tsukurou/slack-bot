@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+mypy = "*"
+yapf = "*"
+
+[packages]
+slackclient = "*"
+
+[requires]
+python_version = "3.7"
+
+[scripts]
+lint = "flake8 --statistics src/"
+lintfix = "yapf -vv -ri src/"
+check = "mypy --ignore-missing-imports --namespace-packages src/"
+
+post_new_channels = "python -m src.post_new_channels"
