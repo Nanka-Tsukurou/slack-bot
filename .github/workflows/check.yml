@@ -4,7 +4,6 @@ on: pull_request
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  SLS_DEPLOYMENT_BUCKET: ${{ secrets.SLS_DEPLOYMENT_BUCKET }}
 
 jobs:
   check:
@@ -41,7 +40,9 @@ jobs:
         run: pipenv run check
 
       - name: Package vulnerabilities check
-        run: pipenv check
+        run: |
+          pipenv check
+          npm audit
 
       - name: Package Serverless
         run: npm run sls:package

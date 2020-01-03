@@ -5,7 +5,7 @@ provider:
   runtime: python3.7
   stage: prod
   region: ap-northeast-1
-  deploymentBucket: ${env:SLS_DEPLOYMENT_BUCKET}
+  deploymentBucket: ${ssm:sls_deployment_bucket}
   logRetentionInDays: 7
   timeout: 60
   memorySize: 256
