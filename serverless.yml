@@ -18,6 +18,7 @@ provider:
       Action:
         - dynamodb:Scan
         - dynamodb:BatchWriteItem
+        - dynamodb:DescribeTable
       Resource: arn:aws:dynamodb:*:*:table/slack_emojies
 
 functions:
