@@ -55,6 +55,6 @@ def lambda_handler(event, lambda_context):
         raise e
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     logger.info('start')
     post_new_channels()

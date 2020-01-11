@@ -10,6 +10,7 @@ yapf = "*"
 
 [packages]
 slackclient = "*"
+pynamodb = "*"
 
 [requires]
 python_version = "3.7"
@@ -18,5 +19,5 @@ python_version = "3.7"
 lint = "flake8 --statistics src/"
 lintfix = "yapf -vv -ri src/"
 check = "mypy --ignore-missing-imports --namespace-packages src/"
-
 post_new_channels = "python -m src.post_new_channels"
+post_new_emojies = "python -m src.post_new_emojies"

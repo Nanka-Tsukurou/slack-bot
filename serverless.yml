@@ -8,7 +8,7 @@ provider:
   deploymentBucket: ${ssm:sls_deployment_bucket}
   logRetentionInDays: 7
   timeout: 60
-  memorySize: 256
+  memorySize: 128
   environment:
     TZ: Asia/Tokyo
     SLACK_TOKEN: ${ssm:slack_bot_token~true}
@@ -20,10 +20,18 @@ functions:
     events:
       - schedule:
           rate: cron(0 3 * * ? *)
+  postNewEmojies:
+    handler: src/post_new_emojies.lambda_handler
+    events:
+      - schedule:
+          rate: cron(0 9 * * ? *)
 
 package:
   exclude:
+    - .mypy_cache/**
     - .venv/**
+    - .vscode/**
+    - node_modules/**
 
 plugins:
   - serverless-python-requirements
@@ -36,3 +44,17 @@ custom:
   prune:
     automatic: true
     number: 3
+
+resources:
+  Resources:
+    ondemanddb:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        TableName: slack_emojies
+        AttributeDefinitions:
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: name
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
