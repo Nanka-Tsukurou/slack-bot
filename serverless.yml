@@ -12,6 +12,7 @@ provider:
   environment:
     TZ: Asia/Tokyo
     SLACK_TOKEN: ${ssm:slack_bot_token~true}
+    SLACK_USER_TOKEN: ${ssm:slack_bot_user_token~true}
     SLACK_CHANNEL: ${ssm:slack_bot_channel}
   iamRoleStatements:
     - Effect: Allow
@@ -26,12 +27,17 @@ functions:
     handler: src/post_new_channels.lambda_handler
     events:
       - schedule:
-          rate: cron(0 3 * * ? *)
+          rate: cron(0 0,3,6,9,12,15,18,21 * * ? *)
   postNewEmojies:
     handler: src/post_new_emojies.lambda_handler
     events:
       - schedule:
           rate: cron(0 9 * * ? *)
+  postTodaysAdage:
+    handler: src/post_todays_adage.lambda_handler
+    events:
+      - schedule:
+          rate: cron(0 12 * * ? *)
 
 package:
   exclude:
@@ -54,7 +60,7 @@ custom:
 
 resources:
   Resources:
-    ondemanddb:
+    SlackEmojies:
       Type: "AWS::DynamoDB::Table"
       Properties:
         TableName: slack_emojies

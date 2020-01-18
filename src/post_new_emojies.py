@@ -28,6 +28,8 @@ def post_new_emojies():
     current_date = datetime.datetime.now(
         tz=jst).strftime('%Y-%m-%dT%H:%M:%S%z')
 
+    max_notify_count = 10
+
     # DynamoDBより登録済みemoji名を取得
     registered_emoji_names = list(map(lambda e: e.name, SlackEmoji.scan()))
 
@@ -38,7 +40,7 @@ def post_new_emojies():
     # Slackのemojiを走査し、通知対象を決定
     should_notify_emojies = []
     for name, url in emojies['emoji'].items():
-        if name not in registered_emoji_names:
+        if (name not in registered_emoji_names) and url.startswith('https:'):
             # DynamoDBに未登録のemojiの場合、通知対象とする
             slack_emoji = SlackEmoji(name)
             slack_emoji.url = url
@@ -49,16 +51,21 @@ def post_new_emojies():
     if len(should_notify_emojies) > 0:
         logger.warn(f'should notify emoji count: {len(should_notify_emojies)}')
 
-        # Slack通知
-        for emoji in should_notify_emojies:
-            message = '新しいemojiが追加されたで！！\n`:{}:` {}'.format(
-                emoji.name, emoji.url)
-            client.chat_postMessage(channel=slack_channel, text=message)
-
         # DynamoDBに登録
         with SlackEmoji.batch_write() as batch:
             for emoji in should_notify_emojies:
                 batch.save(emoji)
+
+        # Slack通知
+        for emoji in should_notify_emojies[:max_notify_count]:
+            message = '新しいemojiが追加されたで！！\n`:{}:` {}'.format(
+                emoji.name, emoji.url)
+            client.chat_postMessage(channel=slack_channel, text=message)
+
+        if len(should_notify_emojies) > max_notify_count:
+            message = '他にも{}個投稿されてたけど、残りは自分で確認してーや！'.format(
+                len(should_notify_emojies) - max_notify_count)
+            client.chat_postMessage(channel=slack_channel, text=message)
 
 
 def lambda_handler(event, lambda_context):
