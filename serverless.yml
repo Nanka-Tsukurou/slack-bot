@@ -54,7 +54,7 @@ custom:
 
 resources:
   Resources:
-    ondemanddb:
+    SlackEmojies:
       Type: "AWS::DynamoDB::Table"
       Properties:
         TableName: slack_emojies
