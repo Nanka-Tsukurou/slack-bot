@@ -12,7 +12,7 @@ jst = datetime.timezone(datetime.timedelta(hours=9))
 
 
 def post_new_channels():
-    threshold = datetime.datetime.now() - datetime.timedelta(hours=24)
+    threshold = datetime.datetime.now() - datetime.timedelta(hours=3)
     client = WebClient(slack_token)
 
     channels = client.channels_list()

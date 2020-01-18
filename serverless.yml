@@ -26,7 +26,7 @@ functions:
     handler: src/post_new_channels.lambda_handler
     events:
       - schedule:
-          rate: cron(0 3 * * ? *)
+          rate: cron(0 0,3,6,9,12,15,18,21 * * ? *)
   postNewEmojies:
     handler: src/post_new_emojies.lambda_handler
     events:
