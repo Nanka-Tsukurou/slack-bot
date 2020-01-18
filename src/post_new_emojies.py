@@ -40,7 +40,7 @@ def post_new_emojies():
     # Slackのemojiを走査し、通知対象を決定
     should_notify_emojies = []
     for name, url in emojies['emoji'].items():
-        if name not in registered_emoji_names:
+        if (name not in registered_emoji_names) and url.startswith('https:'):
             # DynamoDBに未登録のemojiの場合、通知対象とする
             slack_emoji = SlackEmoji(name)
             slack_emoji.url = url
