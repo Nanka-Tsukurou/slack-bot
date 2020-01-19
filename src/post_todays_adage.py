@@ -19,7 +19,7 @@ def post_todays_adage():
     client = WebClient(slack_token)
     user_client = WebClient(slack_user_token)
 
-    threshold = datetime.datetime.now(tz=utc)
+    threshold = datetime.datetime.now(tz=utc) - datetime.timedelta(days=1)
 
     query = 'after:{} has:reaction'.format(threshold.strftime('%F'))
     search_result = user_client.search_all(query=query,
