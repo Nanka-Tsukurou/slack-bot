@@ -63,7 +63,7 @@ def post_new_emojies():
             client.chat_postMessage(channel=slack_channel, text=message)
 
         if len(should_notify_emojies) > max_notify_count:
-            message = '他にも{}個投稿されてたけど、残りは自分で確認してーや！'.format(
+            message = '他にも{}個投稿されとったけど、他は自分で確認してーや！'.format(
                 len(should_notify_emojies) - max_notify_count)
             client.chat_postMessage(channel=slack_channel, text=message)
 
