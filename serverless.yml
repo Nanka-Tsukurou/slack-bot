@@ -11,8 +11,8 @@ provider:
   memorySize: 128
   environment:
     TZ: Asia/Tokyo
-    SLACK_TOKEN: ${ssm:slack_bot_token~true}
-    SLACK_USER_TOKEN: ${ssm:slack_bot_user_token~true}
+    SLACK_TOKEN: ${ssm:slack_bot_token}
+    SLACK_USER_TOKEN: ${ssm:slack_bot_user_token}
     SLACK_CHANNEL: ${ssm:slack_bot_channel}
   iamRoleStatements:
     - Effect: Allow
