@@ -39,10 +39,5 @@ jobs:
       - name: Type check
         run: pipenv run check
 
-      - name: Package vulnerabilities check
-        run: |
-          pipenv check
-          npm audit
-
       - name: Package Serverless
         run: npm run sls:package
